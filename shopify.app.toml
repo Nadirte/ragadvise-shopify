@@ -2,7 +2,7 @@
 
 client_id = "a2a8e85184699b90392a3905d83613fd"
 name = "ragadvise-site-assistant"
-application_url = "https://shopify.dev/apps/default-app-home"
+application_url = "https://ragadvise-shopify.vercel.app"
 embedded = true
 
 [webhooks]
@@ -37,7 +37,11 @@ api_version = "2026-07"
 scopes = ""
 
 [auth]
-redirect_urls = [ "https://shopify.dev/apps/default-app-home/api/auth" ]
+redirect_urls = [
+  "https://ragadvise-shopify.vercel.app/auth/callback",
+  "https://ragadvise-shopify.vercel.app/auth/shopify/callback",
+  "https://ragadvise-shopify.vercel.app/api/auth/callback"
+]
 
 [build]
 automatically_update_urls_on_dev = true
