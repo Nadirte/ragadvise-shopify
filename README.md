@@ -58,20 +58,30 @@ On first run the CLI walks you through creating the app in your Partner Dashboar
 links it (writing `client_id` + URLs into `shopify.app.toml`). Open the preview URL,
 install on your dev store, then use the **Setup** page to enable the app embed.
 
-## Deploy
+## Deploy (Vercel)
 
-1. **Create the app** in the Partner Dashboard (or let `npm run dev` create it), then
-   `npm run config:link` to populate `shopify.app.toml`.
-2. **Host the web app** (any Node host — Fly.io, Render, Railway, a container, etc.).
-   For production, switch Prisma to Postgres in `prisma/schema.prisma` and set
-   `DATABASE_URL`. A `Dockerfile` is included (`npm run docker-start` runs migrations +
-   serves).
-3. Set env vars on the host: `SHOPIFY_API_KEY`, `SHOPIFY_API_SECRET`, `SHOPIFY_APP_URL`,
-   `SCOPES` (empty), and update `application_url` / `[auth].redirect_urls` in
-   `shopify.app.toml` to the host URL.
-4. **Deploy the extension + config**: `npm run deploy`. Capture the theme app extension
-   UUID from the output and set `THEME_APP_EXTENSION_UUID` so the admin page can deep-link
-   merchants to the pre-activated embed.
+The embedded app is hosted on **Vercel** (React Router 7 SSR via the
+[`@vercel/react-router`](https://vercel.com/docs/frameworks/frontend/react-router) preset
+in `react-router.config.ts`). Session storage uses **Postgres** (SQLite can't persist on
+serverless) — Neon or Vercel Postgres both work.
+
+1. **Provision a Postgres database** (e.g. Neon) and copy its pooled connection string.
+2. **Import the repo into Vercel** as a new project. Vercel auto-detects React Router.
+   `vercel.json` runs `prisma db push && react-router build`, which creates the `Session`
+   table on first deploy.
+3. **Set Vercel env vars** (all environments):
+   - `DATABASE_URL` — the Postgres pooled connection string
+   - `SHOPIFY_API_KEY` / `SHOPIFY_API_SECRET` — from the app in the Dev Dashboard
+   - `SHOPIFY_APP_URL` — your Vercel production URL (e.g. `https://ragadvise-shopify.vercel.app`)
+   - `SCOPES` — empty
+   - `THEME_APP_EXTENSION_UUID` — from `shopify app deploy` output (optional; enables the
+     admin deep-link)
+4. **Point Shopify at the Vercel URL**: set `application_url` and `[auth].redirect_urls` in
+   `shopify.app.toml` to the Vercel URL, then run `npm run deploy` to push the config +
+   theme extension to Shopify.
+
+> Local dev (`npm run dev`) also needs `DATABASE_URL` now (Postgres), since the session
+> store is no longer SQLite. Point it at a dev Postgres / Neon branch.
 
 ## App Store submission notes
 
