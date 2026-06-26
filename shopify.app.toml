@@ -1,0 +1,60 @@
+# Shopify app configuration for the RagAdvise Site Assistant app.
+#
+# `client_id`, `application_url` and `[auth].redirect_urls` are populated by the
+# Shopify CLI when you run `npm run config:link` against the app you create in
+# the Partner Dashboard. The placeholders below are replaced at that point.
+#
+# Docs: https://shopify.dev/docs/apps/tools/cli/configuration
+
+name = "RagAdvise Site Assistant"
+handle = "ragadvise-site-assistant"
+client_id = ""
+application_url = "https://CHANGE_ME.example.com"
+embedded = true
+
+[build]
+automatically_update_urls_on_dev = true
+include_config_on_deploy = true
+
+[access_scopes]
+# This app injects a storefront widget via a theme app extension and needs no
+# Admin API resources, so it requests no access scopes.
+scopes = ""
+use_legacy_install_flow = false
+
+[auth]
+redirect_urls = [
+  "https://CHANGE_ME.example.com/auth/callback",
+  "https://CHANGE_ME.example.com/auth/shopify/callback",
+  "https://CHANGE_ME.example.com/api/auth/callback"
+]
+
+[webhooks]
+api_version = "2025-10"
+
+  # Handled by: app/routes/webhooks.app.uninstalled.tsx
+  [[webhooks.subscriptions]]
+  uri = "/webhooks/app/uninstalled"
+  topics = ["app/uninstalled"]
+
+  # Handled by: app/routes/webhooks.app.scopes_update.tsx
+  [[webhooks.subscriptions]]
+  uri = "/webhooks/app/scopes_update"
+  topics = ["app/scopes_update"]
+
+  # Mandatory compliance webhooks for public App Store apps.
+  # See: https://shopify.dev/docs/apps/build/privacy-law-compliance
+  [[webhooks.subscriptions]]
+  uri = "/webhooks/customers/data_request"
+  compliance_topics = ["customers/data_request"]
+
+  [[webhooks.subscriptions]]
+  uri = "/webhooks/customers/redact"
+  compliance_topics = ["customers/redact"]
+
+  [[webhooks.subscriptions]]
+  uri = "/webhooks/shop/redact"
+  compliance_topics = ["shop/redact"]
+
+[pos]
+embedded = false

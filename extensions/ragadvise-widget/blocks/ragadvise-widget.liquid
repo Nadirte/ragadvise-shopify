@@ -1,0 +1,38 @@
+{% comment %}
+  RagAdvise Site Assistant — app embed block.
+
+  Injects the RagAdvise widget loader before </body> on every storefront page.
+  The merchant enables this from Theme editor → App embeds and pastes their
+  Workspace slug. The widget URL defaults to RagAdvise production; it only needs
+  changing if RagAdvise support provides a different loader URL.
+{% endcomment %}
+
+{% if block.settings.workspace_slug != blank %}
+  <script
+    src="{{ block.settings.widget_src | escape }}"
+    data-workspace-slug="{{ block.settings.workspace_slug | escape }}"
+    async
+  ></script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "RagAdvise Site Assistant",
+  "target": "body",
+  "settings": [
+    {
+      "type": "text",
+      "id": "workspace_slug",
+      "label": "Workspace slug",
+      "info": "From your RagAdvise dashboard → Site Assistant → Install (the data-workspace-slug value in the embed snippet)."
+    },
+    {
+      "type": "text",
+      "id": "widget_src",
+      "label": "Widget script URL",
+      "default": "https://ragadvise-agent-widget.pages.dev/embed.js",
+      "info": "Leave this as-is unless RagAdvise support gives you a different loader URL."
+    }
+  ]
+}
+{% endschema %}
