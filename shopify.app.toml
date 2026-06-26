@@ -1,36 +1,12 @@
-# Shopify app configuration for the RagAdvise Site Assistant app.
-#
-# `client_id`, `application_url` and `[auth].redirect_urls` are populated by the
-# Shopify CLI when you run `npm run config:link` against the app you create in
-# the Partner Dashboard. The placeholders below are replaced at that point.
-#
-# Docs: https://shopify.dev/docs/apps/tools/cli/configuration
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
-name = "RagAdvise Site Assistant"
-handle = "ragadvise-site-assistant"
-client_id = ""
-application_url = "https://CHANGE_ME.example.com"
+client_id = "a2a8e85184699b90392a3905d83613fd"
+name = "ragadvise-site-assistant"
+application_url = "https://shopify.dev/apps/default-app-home"
 embedded = true
 
-[build]
-automatically_update_urls_on_dev = true
-include_config_on_deploy = true
-
-[access_scopes]
-# This app injects a storefront widget via a theme app extension and needs no
-# Admin API resources, so it requests no access scopes.
-scopes = ""
-use_legacy_install_flow = false
-
-[auth]
-redirect_urls = [
-  "https://CHANGE_ME.example.com/auth/callback",
-  "https://CHANGE_ME.example.com/auth/shopify/callback",
-  "https://CHANGE_ME.example.com/api/auth/callback"
-]
-
 [webhooks]
-api_version = "2025-10"
+api_version = "2026-07"
 
   # Handled by: app/routes/webhooks.app.uninstalled.tsx
   [[webhooks.subscriptions]]
@@ -56,5 +32,13 @@ api_version = "2025-10"
   uri = "/webhooks/shop/redact"
   compliance_topics = ["shop/redact"]
 
-[pos]
-embedded = false
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = ""
+
+[auth]
+redirect_urls = [ "https://shopify.dev/apps/default-app-home/api/auth" ]
+
+[build]
+include_config_on_deploy = true
+automatically_update_urls_on_dev = true
