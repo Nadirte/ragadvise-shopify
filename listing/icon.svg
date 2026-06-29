@@ -1,0 +1,17 @@
+<svg width="1200" height="1200" viewBox="0 0 1200 1200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Brand background (RagAdvise teal) -->
+  <rect width="1200" height="1200" fill="#1F7A65"/>
+
+  <!-- Chat bubble body -->
+  <rect x="240" y="300" width="720" height="470" rx="110" fill="#FFFFFF"/>
+  <!-- Bubble tail -->
+  <path d="M430 760 L430 930 L600 760 Z" fill="#FFFFFF"/>
+
+  <!-- Conversation dots -->
+  <circle cx="480" cy="535" r="46" fill="#1F7A65"/>
+  <circle cx="600" cy="535" r="46" fill="#1F7A65"/>
+  <circle cx="720" cy="535" r="46" fill="#1F7A65"/>
+
+  <!-- AI sparkle accent -->
+  <path d="M905 210 L942 295 L1027 332 L942 369 L905 454 L868 369 L783 332 L868 295 Z" fill="#D5F372"/>
+</svg>
